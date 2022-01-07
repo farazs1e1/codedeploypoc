@@ -1,0 +1,84 @@
+- hosts:
+    - all
+  #strategy: free
+  gather_facts: false
+  max_fail_percentage: 0
+  tasks:  
+    - block:
+        # - include_vars:
+        #     file: "{{item}}"
+        #   with_items:  
+        #     - "{{inventory_file}}"
+
+        - name: Make ssh connection remote host
+          shell: >
+            sshpass -p '{{ansible_password}}' ssh -o "StrictHostKeyChecking no" {{ansible_user}}@{{ansible_host}}
+          delegate_to: localhost
+          become: false  
+          register: check_remote
+          failed_when: 1 < 0
+
+        - fail:
+            msg: "The remote host credentials are not able to connect to the remote host. Please verify them and try again."  
+          when: check_remote.rc > 0  
+
+        - name: Check if controller vars are able to connect to ansible controller
+          shell: >
+            sshpass -p '{{controller_password}}' ssh -o "StrictHostKeyChecking no" {{controller_user}}@{{controller_host}}
+          delegate_to: localhost
+          become: false
+          register: check_controller
+          failed_when: 1 < 0
+
+        - fail:
+            msg: "The controller vars are not able to connect to the ansible controller. Please verify them in vars.yml and try again."  
+          when: check_controller.rc > 0  
+
+        - name: Gather facts
+          setup:
+            gather_subset:
+              - 'all'
+          register: gather_fact_data    
+
+        - name: Get CPU usage
+          shell: grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print usage "%"}'
+          register: stat_cpu
+
+        - name: Check ping
+          shell: ping {{ansible_host}} -c 4
+          delegate_to: localhost
+          become: false
+          register: pinging  
+          when: ping_allowed
+
+        - name: Displaying host machine stats
+          debug:
+            msg: "{{item}}"      
+          with_items:
+            - "The CPU utilization is: {{stat_cpu.stdout}}"
+            - "{{gather_fact_data.ansible_facts.ansible_memory_mb}}"   
+            - "Total cores: {{gather_fact_data.ansible_facts.ansible_processor_cores}}" 
+        
+        - name: Displaying ping results
+          debug:
+            msg: "{{pinging.stdout_lines}}" 
+          when: ping_allowed
+              
+        - name: Get core space
+          shell: "df -k . | awk '{print $4}'| tail -n 1"
+          args:
+            chdir: "{{installDir}}"
+            executable: "{{bash}}"
+          register: coreFreeSpace
+
+        - name: Check if core space is sufficient
+          assert:
+            that: "{{coreFreeSpace.stdout}} > 5242880"
+            fail_msg: "{{NOT_ENOUGH_SPACE}}"
+
+        - name: Get Home
+          shell: >
+            source ~/.bash_profile; echo $HOME
+          args:
+            executable: "{{bash}}"
+          register: userHome    
