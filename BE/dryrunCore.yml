@@ -79,6 +79,7 @@
           args:
             chdir: "{{installDir}}"
             executable: "/bin/bash"
+          delegate_to: localhost
           register: currentVersion
           
         - debug:
