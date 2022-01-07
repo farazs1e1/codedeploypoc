@@ -27,13 +27,6 @@
             msg: "The controller vars are not able to connect to the ansible controller. Please verify them in vars.yml and try again."  
           when: check_controller.rc > 0 
 
-        - name: Check ping
-          shell: ping {{ansible_host}} -c 4
-          delegate_to: localhost
-          become: false
-          register: pinging    
-          when: ping_allowed          
-              
         - win_command: cmd.exe /C typeperf -sc 1 "\processor(_total)\% processor time"
           register: cpu_usage   
 
@@ -64,7 +57,3 @@
           debug:
             msg: "Powershell version is {{ps_check.results[3].msg}}"  
             
-        - name: Displaying ping results
-          debug:
-            msg: "{{pinging.stdout_lines}}"  
-          when: ping_allowed   

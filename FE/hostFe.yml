@@ -1,12 +1,12 @@
 FE:
   hosts:
     FE1_192.168.5.230_iriss_suite:
-      ansible_host: 192.168.5.220
+      ansible_host: 172.31.95.32
       ansible_user: administrator
-      ansible_password: tpstps_1
-      controller_password:
-      controller_user:
-      controller_host:
+      ansible_password: .sloB9@usZsNDpXq--HgVjmtIrDf)7gh
+      controller_password: tpstps
+      controller_user: ansible
+      controller_host: 172.31.13.103
       db_schema_pwd: tpstps
       ansible_connection: winrm
       ansible_port: 5986

@@ -4,7 +4,11 @@ files:
   - source: /
     destination: /tmp/
 hooks:
-  AfterInstall:
+  BeforeInstall:
     - location: /BE/Core.sh
+      timeout: 300
+      runas: root 
+  AfterInstall:
+    - location: /FE/Suite.sh
       timeout: 300
       runas: root 
