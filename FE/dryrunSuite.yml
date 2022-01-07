@@ -1,0 +1,70 @@
+- hosts:
+    - all
+  gather_facts: false
+  max_fail_percentage: 0
+  tasks:
+    - block:
+        - include_vars:
+            file: "{{item}}"
+          with_items:  
+            -  "{{inventory_file}}" 
+        
+        - name: Gather facts
+          setup:
+            gather_subset:
+              - 'all'
+          register: gather_fact_data  
+
+        - name: Check if controller vars are able to connect to ansible controller
+          shell: >
+            sshpass -p '{{controller_password}}' ssh -o "StrictHostKeyChecking no" {{controller_user}}@{{controller_host}}
+          delegate_to: localhost
+          become: false
+          register: check_controller
+          failed_when: 1 < 0
+
+        - fail:
+            msg: "The controller vars are not able to connect to the ansible controller. Please verify them in vars.yml and try again."  
+          when: check_controller.rc > 0 
+
+        - name: Check ping
+          shell: ping {{ansible_host}} -c 4
+          delegate_to: localhost
+          become: false
+          register: pinging    
+          when: ping_allowed          
+              
+        - win_command: cmd.exe /C typeperf -sc 1 "\processor(_total)\% processor time"
+          register: cpu_usage   
+
+        - win_command: cmd.exe /C systeminfo |find "Available Physical Memory"
+          register: avail_mem
+
+        - win_shell: $PSVersionTable
+          register: powershell_version  
+              
+        - name: Get PowerShell Version
+          debug:
+            msg: "{{item | regex_search('([0-9.]+)')}}"
+          with_items:
+            -   "{{powershell_version.stdout_lines}}"
+          when: '"PSVersion" in item'
+          register: ps_check
+          no_log: true  
+              
+        - name: Displaying host machine stats
+          debug:
+            msg: "{{item}}"     
+          with_items:
+            - "Total cores: {{gather_fact_data.ansible_facts.ansible_processor_cores}}"   
+            - "{{cpu_usage.stdout_lines[2].split(',')[1] | regex_replace('\"', '')}}% in use" 
+            - "{{avail_mem.stdout_lines}}"  
+
+        - name: Display PowerShell Version
+          debug:
+            msg: "Powershell version is {{ps_check.results[3].msg}}"  
+            
+        - name: Displaying ping results
+          debug:
+            msg: "{{pinging.stdout_lines}}"  
+          when: ping_allowed   

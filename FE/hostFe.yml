@@ -1,0 +1,75 @@
+FE:
+  hosts:
+    FE1_192.168.5.230_iriss_suite:
+      ansible_host: 192.168.5.220
+      ansible_user: administrator
+      ansible_password: tpstps_1
+      controller_password:
+      controller_user:
+      controller_host:
+      db_schema_pwd: tpstps
+      ansible_connection: winrm
+      ansible_port: 5986
+      reference_id: 5ead458a-bb57-4594-a9ef-9ecd0ee2e6ab
+      artifact_id: 10
+      node_type: iriss_suite
+      installDir: 'C:\Program Files (x86)\TPS\IRIS'
+      export_config_folder_path: 'C:\Program Files (x86)\TPS\IRIS\IRIS XML\ExportConfigFile'
+      import_config_folder_path: 'C:\Program Files (x86)\TPS\IRIS\IRIS XML\ImportConfigFile'
+      quartz_service_folder_path: 'C:\Program Files (x86)\TPS\IRIS\IRIS.Services'
+      currentVersion: 5.4.19.0
+      previousVersion: 5.4.18.3
+      custom_previous_version: ''
+      ansible_winrm_server_cert_validation: ignore
+      product_type: IRIS
+      deployment_type: INSTALLER
+      artifacts_base_dir: /root/multiPackageDeployment/DeploymentHub/ansibleBackend/artifacts
+      buildId: '72'
+      db_flag_path: >-
+       /root/multiPackageDeployment/DeploymentHub/ansibleBackend/src/models/playbooks/72/buildStatus.yml
+      backup_base_folder: /root/multiPackageDeployment/DeploymentHub/ansibleBackend/.backup
+      is_db_exists: false
+      template_name: CUSTOM_TEMP
+      checksum_parent_folder_path: ''
+      script_path: /root/multiPackageDeployment/DeploymentHub/ansibleBackend/src/scripts
+      deployment_action: INSTALL
+      cmsWebsite: CMS
+      irisWebsite: IRIS
+      websitePort: '8115'
+      cmsWebsitePort: '8086'
+      sparrowWebsite: ''
+      websiteProtocol: http
+      wcfVirtualDirVal: WCFSERVICE
+      cRMWebApplication: CRM
+      cmsWebsiteProtocol: http
+      irisWebApplication: IRIS
+      webApplicationPool: ASP.NET v4.0 Classic
+      xbapWebApplication: XBAPCONTROLS
+      branchPortalWebsite: BranchPortal
+      sparrowWebApplication: ''
+      irisWebApplicationPool: ASP.NET v4.0 Classic
+      branchPortalWebsitePort: '8091'
+      portalApiWebApplication: PortalAPI
+      remittanceWebApplication: IRISIRGateway
+      sparrowWebApplicationPool: Sparrow
+      branchPortalWebsiteProtocol: http
+      merchantPortalWebApplication: ''
+      transactionImportWebApplication: TransactionAPI
+      iris_core_ip: 192.168.3.213
+      iris_core_port: '12396'
+      db_sid: DHTEST
+      db_port: '1521'
+      db_instance_ip: 192.168.3.245
+      db_schema_name: iris
+      requireSSL: 'false'
+      acqInstCode: '111111'
+      hsmCorePort: '9190'
+      quartzEndpointPort: '8582'
+      manualAuthWebService: 'http://192.168.5.230:8111'
+      dataSourceQuartzProvider: OracleODPManaged-1211-40
+      isProduct: true
+      isCustom: true
+      # sokinWebsite: Sokin
+      # corporatePortalWebsite: 'SokinPortal'
+      # sokinSuiteApiWebsite: 'SokinSuiteApi'
+      institution: SOKIN

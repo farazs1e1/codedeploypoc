@@ -1,0 +1,10 @@
+version: 0.0
+os: linux
+files: 
+  - source: /FE
+    destination: /tmp/FE/
+hooks:
+  AfterInstall:
+    - location: /Suite.sh
+      timeout: 300
+      runas: ec2-user 
