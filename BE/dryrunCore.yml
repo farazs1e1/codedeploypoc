@@ -72,7 +72,7 @@
           register: userHome
           
         - debug:
-            msg: "{{currentVersion}}
+            msg: "{{currentVersion}}"
             
         - name: Get currentVersion
           shell: "aws ssm get-parameters --region us-east-1 --names currentVersion --with-decryption --query Parameters[0].Value |  sed -e 's/^"//' -e 's/"$//'"
