@@ -1,17 +1,17 @@
 BE:
   hosts:
     BE2_192.168.3.213_comms:
-      ansible_host: 192.168.3.213
-      ansible_user: root
-      ansible_password: tpstps_1
-      controller_password:
-      controller_user:
-      controller_host:
+      ansible_host: 172.31.92.52
+      ansible_user: iris
+      ansible_password: tpstps
+      controller_password: tpstps
+      controller_user: ansible
+      controller_host: 172.31.13.103
       ansible_connection: ssh
       ansible_port: 22
       node_type: comms
       #installDir: /root/multi
-      installDir: /root/Core
+      installDir: /home/iris/
       currentVersion: 5.4.13.0
       previousVersion: ''
       ansible_winrm_server_cert_validation: ignore

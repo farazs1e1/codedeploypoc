@@ -5,10 +5,10 @@
   max_fail_percentage: 0
   tasks:  
     - block:
-        # - include_vars:
-        #     file: "{{item}}"
-        #   with_items:  
-        #     - "{{inventory_file}}"
+        - include_vars:
+            file: "{{item}}"
+          with_items:  
+            - "{{inventory_file}}"
 
         - name: Make ssh connection remote host
           shell: >
