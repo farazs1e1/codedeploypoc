@@ -1,10 +1,10 @@
 version: 0.0
 os: linux
 files: 
-  - source: /BE
+  - source: /
     destination: /tmp/BE/
 hooks:
   AfterInstall:
-    - location: /Core.sh
+    - location: /BE/Core.sh
       timeout: 300
       runas: ec2-user 
