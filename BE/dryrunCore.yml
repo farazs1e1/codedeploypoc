@@ -44,13 +44,6 @@
           shell: grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print usage "%"}'
           register: stat_cpu
 
-        - name: Check ping
-          shell: ping {{ansible_host}} -c 4
-          delegate_to: localhost
-          become: false
-          register: pinging  
-          when: ping_allowed
-
         - name: Displaying host machine stats
           debug:
             msg: "{{item}}"      
@@ -58,11 +51,6 @@
             - "The CPU utilization is: {{stat_cpu.stdout}}"
             - "{{gather_fact_data.ansible_facts.ansible_memory_mb}}"   
             - "Total cores: {{gather_fact_data.ansible_facts.ansible_processor_cores}}" 
-        
-        - name: Displaying ping results
-          debug:
-            msg: "{{pinging.stdout_lines}}" 
-          when: ping_allowed
               
         - name: Get core space
           shell: "df -k . | awk '{print $4}'| tail -n 1"
@@ -74,7 +62,7 @@
         - name: Check if core space is sufficient
           assert:
             that: "{{coreFreeSpace.stdout}} > 5242880"
-            fail_msg: "{{NOT_ENOUGH_SPACE}}"
+            fail_msg: "Not enough space"
 
         - name: Get Home
           shell: >
