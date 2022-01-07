@@ -79,7 +79,10 @@
           args:
             executable: "/bin/bash"
           delegate_to: localhost
-          register: currentVersion
+          register: currentVersion_all
+          
+        - set_fact:
+            currentVersion: "{{currentVersion_all.stdout_lines}}"
           
         - debug:
             msg: "{{currentVersion}}"
