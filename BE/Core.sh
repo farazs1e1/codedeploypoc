@@ -5,4 +5,4 @@ ls
 cd /tmp/BE/
 echo Dir is:
 pwd
-ansible-playbook /BE/dryrunCore.yml -i hostBe.yml
+ansible-playbook dryrunCore.yml -i hostBe.yml
