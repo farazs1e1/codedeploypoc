@@ -69,4 +69,17 @@
             source ~/.bash_profile; echo $HOME
           args:
             executable: "/bin/bash"
-          register: userHome    
+          register: userHome
+          
+        - debug:
+            msg: "{{currentVersion}}
+            
+        - name: Get currentVersion
+          shell: "aws ssm get-parameters --region us-east-1 --names currentVersion --with-decryption --query Parameters[0].Value |  sed -e 's/^"//' -e 's/"$//'"
+          args:
+            chdir: "{{installDir}}"
+            executable: "/bin/bash"
+          register: currentVersion
+          
+        - debug:
+            msg: "{{currentVersion}}"
