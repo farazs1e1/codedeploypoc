@@ -55,5 +55,21 @@
 
         - name: Display PowerShell Version
           debug:
-            msg: "Powershell version is {{ps_check.results[3].msg}}"  
+            msg: "Powershell version is {{ps_check.results[3].msg}}"
+            
+        - debug:
+            msg: "{{currentVersion}}"
+            
+        - name: Get currentVersion
+          shell: "aws ssm get-parameters --region us-east-1 --names currentVersion --with-decryption --query Parameters[0].Value |  sed -e 's/^\"//' -e 's/\"$//'"
+          args:
+            executable: "/bin/bash"
+          delegate_to: localhost
+          register: currentVersion_all
+          
+        - set_fact:
+            currentVersion: "{{currentVersion_all.stdout}}"
+          
+        - debug:
+            msg: "{{currentVersion}}"
             
