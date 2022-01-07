@@ -5,6 +5,6 @@ files:
     destination: /tmp/BE/
 hooks:
   AfterInstall:
-    - location: /BE/Core.sh
+    - location: /Core.sh
       timeout: 300
       # runas: ansible 
