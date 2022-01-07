@@ -56,7 +56,7 @@
           shell: "df -k . | awk '{print $4}'| tail -n 1"
           args:
             chdir: "{{installDir}}"
-            executable: "{{bash}}"
+            executable: "/bin/bash"
           register: coreFreeSpace
 
         - name: Check if core space is sufficient
@@ -68,5 +68,5 @@
           shell: >
             source ~/.bash_profile; echo $HOME
           args:
-            executable: "{{bash}}"
+            executable: "/bin/bash"
           register: userHome    
