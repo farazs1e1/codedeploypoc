@@ -1,3 +1,5 @@
 #!/bin/bash
 
-ansible-playbook BE/dryrunCore.yml -i hostBe.yml
+pwd
+ls
+ansible-playbook /BE/dryrunCore.yml -i hostBe.yml
